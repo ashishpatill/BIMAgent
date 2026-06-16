@@ -1,0 +1,12 @@
+langchain
+langchain-core>=0.3.23
+langchain-text-splitters
+langchain-openai
+langchain-qdrant
+qdrant-client
+pydantic
+pydantic-settings
+python-dotenv
+langgraph
+pypdf
+
