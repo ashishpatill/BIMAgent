@@ -8,7 +8,7 @@ To build a system capable of answering profound, multi-hop research queries, we 
 ## The Model-Agnostic Engine
 Unlike traditional chatbot backends that simply pass text to a single LLM, BIMAgent is designed to orchestrate a fleet of models and tools. It intercepts user queries, evaluates what kind of data is required, and autonomously summons the `BIMIndex` Tri-Modal dispatcher or the `BIMExtract` ingestion engine.
 
-![AI Orchestrator Engine](../assets/bimagent_premium.png)
+![AI Orchestrator Engine](assets/bimagent_premium.png)
 
 This approach guarantees that:
 1. **Any Model Can Be Used**: The orchestration logic is completely decoupled from the generation model. You can plug in local models, cloud APIs, or specialized fine-tunes without altering the application logic.
