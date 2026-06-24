@@ -1,0 +1,7 @@
+# Cursor/Codex AI Rules for BIMAgent
+
+## Guidelines
+- Write modern, async Python 3.12+ code for the orchestration API.
+- Use `google.antigravity` SDK constructs (`LocalAgentConfig`, `@hooks`, `enable_subagents=True`).
+- Follow the Tri-Modal routing patterns described in the BIMRAG implementation plan.
+- Ensure strict type-hinting and robust error recovery (`@hooks.on_tool_error`).
