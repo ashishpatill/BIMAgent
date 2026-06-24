@@ -10,6 +10,9 @@ Unlike traditional chatbot backends that simply pass text to a single LLM, BIMAg
 
 ![AI Orchestrator Engine](assets/bimagent_premium.png)
 
+### Tech Stack & Orchestration Loop
+![BIMAgent Tech Stack Flow](assets/bimagent_excalidraw.png)
+
 This approach guarantees that:
 1. **Any Model Can Be Used**: The orchestration logic is completely decoupled from the generation model. You can plug in local models, cloud APIs, or specialized fine-tunes without altering the application logic.
 2. **Deep Research is Possible**: By utilizing lifecycle hooks (`@hooks.pre_turn`, `@hooks.post_turn`), the agent tracks multi-step goal execution loops, allowing it to "think" and research over extended periods before returning an answer.
