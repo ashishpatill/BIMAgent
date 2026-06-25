@@ -5,3 +5,13 @@
 - Use `google.antigravity` SDK constructs (`LocalAgentConfig`, `@hooks`, `enable_subagents=True`).
 - Follow the Tri-Modal routing patterns described in the BIMRAG implementation plan.
 - Ensure strict type-hinting and robust error recovery (`@hooks.on_tool_error`).
+
+## Task List
+- Read `TASKS.md` for 7 detailed tasks with specs and implementation steps.
+
+## Model Routing
+- Before any task, read `ROUTING.md` to select the correct model tier.
+- Flash tier (offload 3–5): DeepSeek V4 Flash — bounded implementations.
+- Flash→Pro tier (offload 5–7): Flash writes implementation, Pro reviews.
+- Pro tier (offload > 7): DeepSeek V4 Pro — architecture, planning, debugging.
+- Never send API keys or secrets to any model — use local Nanbeige-3B for sensitive material.
