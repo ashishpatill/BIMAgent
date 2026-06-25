@@ -9,4 +9,12 @@ pydantic-settings
 python-dotenv
 langgraph
 pypdf
+fastapi>=0.137.2
+uvicorn>=0.49.0
+pytest>=8.0.0
+llama-parse>=0.5
+docling>=2.0
+google-antigravity
+httpx>=0.27.0
+redis>=5.0.0
 
