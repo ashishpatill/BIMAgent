@@ -1,5 +1,6 @@
 from typing import TypedDict, List
 from langgraph.graph import StateGraph, START, END
+from store import get_vectorstore
 from app.orchestrator.nodes.router import router_node
 from app.retrieval.fusion import reciprocal_rank_fusion
 from app.retrieval.compression import compress_context
@@ -21,37 +22,22 @@ async def retrieve_node(state: GraphState):
     trace = state.get("trace", [])
     trace.append(f"Starting retrieval for route: {route}")
     
-    # Mock databases for dense, sparse, and graph retrievals
-    dense_results = [
-        {"id": "doc1", "content": "RAG scaling laws indicate that dense retrieval performance improves with model capacity.", "score": 0.9},
-        {"id": "doc2", "content": "Corrective RAG (CRAG) evaluates document relevance before generation.", "score": 0.8}
-    ]
-    
-    sparse_results = [
-        {"id": "doc2", "content": "Corrective RAG (CRAG) evaluates document relevance before generation.", "score": 0.85},
-        {"id": "doc3", "content": "HippoRAG uses knowledge graphs for multi-hop reasoning over documents.", "score": 0.75}
-    ]
-    
-    graph_results = [
-        {"id": "doc3", "content": "HippoRAG uses knowledge graphs for multi-hop reasoning over documents.", "score": 0.95},
-        {"id": "doc4", "content": "PageIndex Tree Walk enables hierarchical navigation of large document sets.", "score": 0.7}
-    ]
-    
+    vs = get_vectorstore()
     retrieved_docs = []
-    if route == "dense":
-        retrieved_docs = dense_results
-    elif route == "sparse":
-        retrieved_docs = sparse_results
-    elif route == "graph":
-        retrieved_docs = reciprocal_rank_fusion([dense_results, graph_results])
-        trace.append("Fused dense and graph retrieval results using RRF.")
-    elif route == "page_tree":
-        retrieved_docs = reciprocal_rank_fusion([dense_results, sparse_results])
-        trace.append("Fused dense and sparse retrieval results using RRF.")
-    else:
-        retrieved_docs = dense_results
+    try:
+        docs_with_scores = vs.similarity_search_with_relevance_scores(query, k=5)
+        retrieved_docs = [
+            {
+                "id": doc.metadata.get("source", doc.metadata.get("id", str(i))),
+                "content": doc.page_content,
+                "score": score,
+            }
+            for i, (doc, score) in enumerate(docs_with_scores)
+        ]
+    except Exception as e:
+        trace.append(f"Qdrant retrieval failed: {e}")
         
-    trace.append(f"Retrieved {len(retrieved_docs)} documents.")
+    trace.append(f"Retrieved {len(retrieved_docs)} documents from Qdrant.")
     return {"documents": retrieved_docs, "trace": trace}
 
 async def grade_node(state: GraphState):
